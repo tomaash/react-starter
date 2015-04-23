@@ -7,6 +7,9 @@ import withTimeout from "./withTimeout";
 import ReactUpdates from "react/lib/ReactUpdates";
 import StoresWrapper from "./StoresWrapper";
 
+require('babel-core/polyfill');
+import 'babel-core/polyfill';
+
 var initialRun = true;
 
 // react-router handles location

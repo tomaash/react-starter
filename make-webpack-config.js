@@ -10,12 +10,13 @@ module.exports = function(options) {
 		main: reactEntry("main"),
 		// second: reactEntry("second")
 	};
+	var babel = "babel-loader?stage=0";
 	var loaders = {
 		"coffee": "coffee-redux-loader",
-		"jsx": options.hotComponents ? ["react-hot-loader", "babel-loader"] : "babel-loader",
+		"jsx": options.hotComponents ? ["react-hot-loader", babel] : babel,
 		"json": "json-loader",
 		"js": {
-			loader: "babel-loader",
+			loader: babel,
 			include: path.join(__dirname, "app")
 		},
 		"json5": "json5-loader",
@@ -56,7 +57,7 @@ module.exports = function(options) {
 		publicPath: publicPath,
 		filename: "[name].js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
 		chunkFilename: (options.devServer ? "[id].js" : "[name].js") + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
-		sourceMapFilename: "debugging/[file].map",
+		// sourceMapFilename: "debugging/[file].map",
 		libraryTarget: options.prerender ? "commonjs2" : undefined,
 		pathinfo: options.debug || options.prerender
 	};
@@ -141,12 +142,13 @@ module.exports = function(options) {
 		module: {
 			loaders: [asyncLoader].concat(loadersByExtension(loaders)).concat(loadersByExtension(stylesheetLoaders)).concat(additionalLoaders)
 		},
-		devtool: options.devtool,
+		devtool: options.devtool ? '#inline-source-map' : false,
 		debug: options.debug,
 		resolveLoader: {
 			root: path.join(__dirname, "node_modules"),
 			alias: aliasLoader
 		},
+		optional: ['runtime'],
 		externals: externals,
 		resolve: {
 			root: root,

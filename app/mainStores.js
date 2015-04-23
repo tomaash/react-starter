@@ -114,7 +114,7 @@ var stores = module.exports = {
 
 import { Todo } from "./actions";
 
-Todo.add.listen(function(list, item) {
+Todo.add.listen((list, item) => {
 	stores.TodoList.updateItem(list, { $push: [item] });
 });
 
